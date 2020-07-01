@@ -3,15 +3,20 @@
 #include <PubSubClient.h>
 
 // define sensor pins
-int triggerL = 8;
-int triggerR = 10;
-int echoL = 9;
-int echoR = 11;
+int triggerL = 4;
+int triggerR = 8;
+int echoL = 7;
+int echoR = 9;
 
 // declare the variables for time and distance 
 // distance is distance from the sensor to the object 
 long time;
 int dist, distL, distR;
+
+// define what is "close" and what is "far"
+int objClose = 5;
+int objFar = 10;
+
 
 // define network settings
 const char* server = "192.168.1.181"; // local ip address
@@ -91,9 +96,14 @@ void loop() {
   getDistance(triggerR,echoR);
   distR = dist;
 
+// DEBUG
+//  Serial.print("Left: ");
+//  Serial.println(distL);
+//  Serial.print("Right: ");
+//  Serial.println(distR);
 
   // Both sensors
-  if(distL<=30&&distR<=30){
+  if(distL<=objFar&&distR<=objFar){
     Serial.println("BothLocked");
     memset(message, 0, strlen(message));
     strcat(message, "BothLocked");
@@ -102,7 +112,7 @@ void loop() {
   }
 
   //Left sensor: object is close
-  if(distL<=15&&distR>30){
+  if(distL<=objClose&&distR>objFar){
     Serial.println("LeftPushed");
     memset(message, 0, strlen(message));
     strcat(message, "LeftPushed");
@@ -110,28 +120,31 @@ void loop() {
     delay(1000);
   }
   //Left sensor: object is far
-  if(distL>15&&distL<30&&distR>30){
+  if(distL>objClose&&distL<objFar&&distR>objFar){
     Serial.println("LeftPulled");
     memset(message, 0, strlen(message));
     strcpy(message, "LeftPulled");
+    sendMessage(message);
     delay(1000);
   }
 
     //Right sensor: object is close
-  if(distR<=15&&distL>30){
+  if(distR<=objClose&&distL>objFar){
     Serial.println("RightPushed");
     memset(message, 0, strlen(message));
     strcpy(message, "RightPushed");
+    sendMessage(message);
     delay(1000);
   }
   //Right sensor: object is far
-  if(distR>15&&distR<30&&distL>30){
+  if(distR>objClose&&distR<objFar&&distL>objFar){
     Serial.println("RightPulled");
     memset(message, 0, strlen(message));
     strcpy(message, "RightPulled");
+    sendMessage(message);
     delay(1000);
   }
-
+  
   // delay 0.2 seconds
   delay(200);
 }
