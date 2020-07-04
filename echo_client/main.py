@@ -1,27 +1,41 @@
 import time
+import os
 import paho.mqtt.client as mqtt
 
 broker_address = "192.168.1.181"
 
 
+# Define the commands for easier editing
+left_pulled_command = "mailspring"
+left_pushed_command = ""
+right_pulled_command = ""
+right_pushed_command = ""
+both_locked_command = ""
+
+
 # Helper functions to implement each command separately
 def left_pushed():
+    os.system(left_pushed_command)
     return "LeftPushed"
 
 
 def left_pulled():
+    os.system(left_pulled_command)
     return "LeftPulled"
 
 
 def right_pushed():
+    os.system(right_pushed_command)
     return "RightPushed"
 
 
 def right_pulled():
+    os.system(right_pulled_command)
     return "RightPulled"
 
 
 def both_locked():
+    os.system(both_locked_command)
     return "BothLocked"
 
 
