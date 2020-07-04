@@ -9,9 +9,9 @@ broker_address = "192.168.1.181"
 # opens terminal
 left_pulled_command = "gnome-terminal"
 # opens gedit
-left_pushed_command = "gedit"
+left_pushed_command = "gedit & disown"
 # opens opera browser
-right_pulled_command = "opera"
+right_pulled_command = "opera & disown"
 # displays date and time
 right_pushed_command = "date"
 # writes "hello"
