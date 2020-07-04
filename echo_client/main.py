@@ -6,47 +6,26 @@ broker_address = "192.168.1.181"
 
 
 # Define the commands for easier editing
-left_pulled_command = "mailspring"
-left_pushed_command = ""
-right_pulled_command = ""
-right_pushed_command = ""
-both_locked_command = ""
-
-
-# Helper functions to implement each command separately
-def left_pushed():
-    os.system(left_pushed_command)
-    return "LeftPushed"
-
-
-def left_pulled():
-    os.system(left_pulled_command)
-    return "LeftPulled"
-
-
-def right_pushed():
-    os.system(right_pushed_command)
-    return "RightPushed"
-
-
-def right_pulled():
-    os.system(right_pulled_command)
-    return "RightPulled"
-
-
-def both_locked():
-    os.system(both_locked_command)
-    return "BothLocked"
+# opens terminal
+left_pulled_command = "gnome-terminal"
+# opens gedit
+left_pushed_command = "gedit"
+# opens opera browser
+right_pulled_command = "opera"
+# displays date and time
+right_pushed_command = "date"
+# writes "hello"
+both_locked_command = "echo hello"
 
 
 # Switcher method to identify the message
 def interpret_message(message):
     switcher = {
-        "LeftPushed": left_pushed(),
-        "LeftPulled": left_pulled(),
-        "RightPushed": right_pushed(),
-        "RightPulled": right_pulled(),
-        "BothLocked": both_locked()
+        "LeftPushed": left_pushed_command,
+        "LeftPulled": left_pulled_command,
+        "RightPushed": right_pushed_command,
+        "RightPulled": right_pulled_command,
+        "BothLocked": both_locked_command
     }
     return switcher.get(message, "Invalid message")
 
@@ -71,7 +50,8 @@ def on_connect(client, userdata, flags, rc):
 # Callback to process the message
 def on_message(client, userdata, message):
     received = str(message.payload.decode("utf-8"))
-    print("Message received: ", interpret_message(received))
+    os.system(interpret_message(received))
+    print("Message received: ", received)
 
 
 # main function
